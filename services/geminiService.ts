@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GeminiResponse } from '../types';
 
@@ -19,13 +20,17 @@ const responseSchema = {
       type: Type.NUMBER,
       description: "A score from 0 (Safe) to 100 (High Risk) based on the analysis.",
     },
+    confidenceScore: {
+      type: Type.NUMBER,
+      description: "A score from 0 to 100 indicating the confidence in the analysis provided."
+    },
     analysis: {
       type: Type.STRING,
       description: "A brief, one or two sentence explanation for the classification and risk score. Mention specific red flags if any are found.",
     },
     redFlags: {
       type: Type.ARRAY,
-      description: "A list of 2-5 specific red flags detected (e.g., 'Asks for money', 'Unrealistic claims', 'Suspicious URL'). Otherwise, an empty array.",
+      description: "A list of 2-5 specific red flags detected (e.g., 'Asks for money', 'Unrealistic claims', 'Suspicious URL', 'Urgency Language', 'Too Good To Be True Promises'). Otherwise, an empty array.",
       items: {
         type: Type.STRING,
       },
@@ -33,19 +38,36 @@ const responseSchema = {
      recommendation: {
         type: Type.STRING,
         description: "A final, clear recommendation from the following options: 'Safe to apply', 'Needs manual verification', 'Likely scam — stay away', 'Confirmed scam — avoid'.",
+    },
+    linkAnalysis: {
+        type: Type.OBJECT,
+        description: "Analysis of any URL found in the content. If no URL, provide default 'Unknown' values.",
+        properties: {
+            domainAge: { type: Type.STRING, description: "Estimated age of the domain (e.g., 'New', 'Established', 'Unknown')." },
+            sslStatus: { type: Type.STRING, description: "Status of SSL certificate ('Secure', 'Not Secure', 'Unknown')." },
+            redirects: { type: Type.INTEGER, description: "Number of redirects detected (0 if none or unknown)." },
+            malwareScan: { type: Type.STRING, description: "Result of a conceptual malware scan ('Clean', 'Infected', 'Unknown')." },
+        }
+    },
+    keywordHighlights: {
+        type: Type.ARRAY,
+        description: "A list of suspicious phrases or keywords found in the text that should be highlighted for the user.",
+        items: { type: Type.STRING }
+    },
+    similarScamsCount: {
+        type: Type.NUMBER,
+        description: "An estimated count of how many similar scams have been reported based on patterns in the content."
     }
   },
-  required: ['category', 'riskScore', 'analysis', 'redFlags', 'recommendation'],
+  required: ['category', 'riskScore', 'confidenceScore', 'analysis', 'redFlags', 'recommendation', 'linkAnalysis', 'keywordHighlights', 'similarScamsCount'],
 };
 
 const systemInstruction = `Act as TRUST LINK AI. You are a security analyst specializing in identifying fraudulent online content for students. You must analyze all user inputs (links, text, screenshots, PDFs, job descriptions) and classify them as Promotion, Internship, Scam, or Unknown. Be strict about scams. Highlight every possible risk. If the information is insufficient, clearly say so and classify as UNKNOWN. Never create fake company names or fake verification.
-Grounding Rules:
-- Never confirm authenticity unless clear evidence exists.
-- Always caution users if information is incomplete.
-- If the message asks for money, immediately increase risk score and flag it.
-- If a domain is suspicious, shortened, or doesn't match a known company, treat it with high caution.
-- If an offer is “guaranteed,” “quick,” or has “no interview,” flag it as suspicious.
-- Never generate overly optimistic responses for unclear messages.
+- Provide a risk score from 0-100 and a confidence score for your analysis.
+- Identify specific red flags (e.g., "Registration Fee Mentioned", "Fake HR Name", "Urgency Language").
+- If a link is present, analyze it: estimate its domain age, SSL status, redirect chains, and malware risk. If no link, use 'Unknown' or 0.
+- Extract suspicious keywords/phrases for highlighting.
+- Estimate the number of similar scams seen before based on content patterns.
 - Always provide a structured output in the required JSON format.`;
 
 

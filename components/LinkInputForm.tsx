@@ -27,6 +27,8 @@ const LinkInputForm: React.FC<LinkInputFormProps> = ({ onNewReport }) => {
         content,
         ...result,
         timestamp: new Date().toISOString(),
+        // FIX: Added missing 'comments' property to conform to the LinkReport type.
+        comments: [],
       };
       onNewReport(newReport);
       setContent('');
