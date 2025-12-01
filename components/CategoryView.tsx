@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { Category, LinkReport, User } from '../types';
 import { CATEGORIES } from '../constants';
@@ -7,9 +8,10 @@ interface CategoryViewProps {
   reports: LinkReport[];
   currentUser: User | null;
   onAddComment: (reportId: string, content: string) => void;
+  onVerify: (reportId: string) => void;
 }
 
-const CategoryView: React.FC<CategoryViewProps> = ({ reports, currentUser, onAddComment }) => {
+const CategoryView: React.FC<CategoryViewProps> = ({ reports, currentUser, onAddComment, onVerify }) => {
   const [activeTab, setActiveTab] = useState<Category>(CATEGORIES[0].id);
 
   const filteredReports = reports.filter(report => report.category === activeTab);
@@ -34,9 +36,17 @@ const CategoryView: React.FC<CategoryViewProps> = ({ reports, currentUser, onAdd
           ))}
         </div>
       </div>
-      <div className="space-y-4 px-4 md:px-0">
+      <div className="space-y-6 px-4 md:px-0">
         {filteredReports.length > 0 ? (
-          filteredReports.map(report => <ResultsDisplay key={report.id} report={report} currentUser={currentUser} onAddComment={onAddComment} />)
+          filteredReports.map(report => (
+            <ResultsDisplay 
+                key={report.id} 
+                report={report} 
+                currentUser={currentUser} 
+                onAddComment={onAddComment} 
+                onVerify={onVerify}
+            />
+          ))
         ) : (
           <div className="text-center py-12 px-4 bg-white dark:bg-slate-800/50 rounded-lg shadow-md border border-transparent dark:border-slate-700">
             <p className="text-slate-500 dark:text-slate-400">No reports found for this category yet.</p>

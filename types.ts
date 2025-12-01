@@ -1,3 +1,7 @@
+
+// FIX: Import React to provide types like ReactNode.
+import React from 'react';
+
 // FIX: Removed circular import of 'User' type which is defined in this file.
 
 export type Category = 'PROMOTION' | 'INTERNSHIP' | 'SCAM' | 'UNKNOWN';
@@ -56,6 +60,9 @@ export interface LinkReport {
   similarScamsCount?: number;
   confidenceScore?: number;
   comments: Comment[];
+  imageUrl?: string;
+  isVerified?: boolean;
+  userId?: string;
 }
 
 export interface CategoryInfo {

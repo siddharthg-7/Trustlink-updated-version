@@ -3,13 +3,34 @@ import React from 'react';
 
 export const TrustLinkLogo: React.FC<{ className?: string }> = ({ className }) => (
     <div className={`flex items-center font-bold text-xl tracking-wide ${className}`}>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mr-2 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mr-2 text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
              <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
              <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeOpacity="0.4" />
         </svg>
-        <span className="text-white">TRUST</span>
-        <span className="text-slate-400">LINK</span>
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-500">TRUST</span>
+        <span className="text-slate-400 dark:text-slate-300">LINK</span>
     </div>
+);
+
+export const BotIcon: React.FC<{ className?: string }> = ({ className = 'h-6 w-6' }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M10 9a2 2 0 114 0v3a2 2 0 11-4 0V9z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+  </svg>
+);
+
+export const MusicIcon: React.FC<{ className?: string }> = ({ className = 'h-6 w-6' }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+  </svg>
+);
+
+export const MusicOffIcon: React.FC<{ className?: string }> = ({ className = 'h-6 w-6' }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+  </svg>
 );
 
 export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className = 'h-6 w-6' }) => (
@@ -190,5 +211,17 @@ export const BuildingOfficeIcon: React.FC<{ className?: string }> = ({ className
 export const BriefcaseIcon: React.FC<{ className?: string }> = ({ className = 'h-6 w-6' }) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.05a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V8.25a2.25 2.25 0 012.25-2.25h15A2.25 2.25 0 0121 8.25v.9c.378.29.622.74.622 1.25v1.5a1.125 1.125 0 01-1.125 1.125h-.375zM16.5 6.75v-1.5a1.5 1.5 0 00-3 0v1.5m6 0v-1.5a1.5 1.5 0 00-3 0v1.5M12 9.75V11.25M7.5 9.75V11.25m3-3.75v1.5m3-1.5v1.5m-3-1.5h3" />
+    </svg>
+);
+
+export const ImageIcon: React.FC<{ className?: string }> = ({ className = 'h-6 w-6' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+);
+
+export const XIcon: React.FC<{ className?: string }> = ({ className = 'h-5 w-5' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
 );

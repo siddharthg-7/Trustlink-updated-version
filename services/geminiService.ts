@@ -1,4 +1,5 @@
 
+
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GeminiResponse } from '../types';
 
@@ -62,20 +63,33 @@ const responseSchema = {
   required: ['category', 'riskScore', 'confidenceScore', 'analysis', 'redFlags', 'recommendation', 'linkAnalysis', 'keywordHighlights', 'similarScamsCount'],
 };
 
-const systemInstruction = `Act as TRUST LINK AI. You are a security analyst specializing in identifying fraudulent online content for students. You must analyze all user inputs (links, text, screenshots, PDFs, job descriptions) and classify them as Promotion, Internship, Scam, or Unknown. Be strict about scams. Highlight every possible risk. If the information is insufficient, clearly say so and classify as UNKNOWN. Never create fake company names or fake verification.
+const systemInstruction = `Act as TRUST LINK AI. You are a security analyst specializing in identifying fraudulent online content for students. You must analyze all user inputs (links, text, and images of text/links like screenshots) and classify them as Promotion, Internship, Scam, or Unknown. If an image is provided, perform OCR to extract any text and analyze that text. Be strict about scams. Highlight every possible risk. If the information is insufficient, clearly say so and classify as UNKNOWN. Never create fake company names or fake verification.
 - Provide a risk score from 0-100 and a confidence score for your analysis.
 - Identify specific red flags (e.g., "Registration Fee Mentioned", "Fake HR Name", "Urgency Language").
-- If a link is present, analyze it: estimate its domain age, SSL status, redirect chains, and malware risk. If no link, use 'Unknown' or 0.
+- If a link is present (in text or image), analyze it: estimate its domain age, SSL status, redirect chains, and malware risk. If no link, use 'Unknown' or 0.
 - Extract suspicious keywords/phrases for highlighting.
 - Estimate the number of similar scams seen before based on content patterns.
 - Always provide a structured output in the required JSON format.`;
 
 
-export const analyzeContent = async (content: string): Promise<GeminiResponse> => {
+export const analyzeContent = async (content: string, image?: { mimeType: string; data: string }): Promise<GeminiResponse> => {
   try {
+    const prompt = `Analyze the following content based on your instructions and provide a structured JSON response. If there is only an image, analyze the image. If there is text and an image, consider them together. Text: "${content}"`;
+    
+    const parts: any[] = [{ text: prompt }];
+
+    if (image) {
+      parts.push({
+        inlineData: {
+          mimeType: image.mimeType,
+          data: image.data
+        }
+      });
+    }
+
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: `Analyze the following content based on your instructions and provide a structured JSON response. Content: "${content}"`,
+      contents: { parts },
       config: {
         systemInstruction: systemInstruction,
         responseMimeType: "application/json",

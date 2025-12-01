@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { CategoryInfo, LinkReport, User, CommunityPost, Badge, BadgeInfo, VerifiedOpportunity, TrustedCompany } from './types';
 import { BadgeCheckIcon, FlagIcon, UsersIcon } from './components/icons';
@@ -75,7 +76,9 @@ export const MOCK_REPORTS: LinkReport[] = [
         },
         comments: [
             { id: 'rc1', author: MOCK_USERS[1], content: 'Wow, this is a classic gift card scam. Thanks for the analysis!', timestamp: new Date(Date.now() - 1000 * 60 * 3).toISOString() }
-        ]
+        ],
+        isVerified: true,
+        userId: 'user-2'
     },
     {
         id: 'mock-2',
@@ -95,7 +98,9 @@ export const MOCK_REPORTS: LinkReport[] = [
             redirects: 0,
             malwareScan: 'Clean'
         },
-        comments: []
+        comments: [],
+        isVerified: true,
+        userId: 'user-2'
     },
     {
         id: 'mock-3',
@@ -115,7 +120,8 @@ export const MOCK_REPORTS: LinkReport[] = [
             redirects: 0,
             malwareScan: 'Clean'
         },
-        comments: []
+        comments: [],
+        userId: 'user-2'
     },
     {
         id: 'mock-4',
@@ -157,7 +163,8 @@ export const MOCK_REPORTS: LinkReport[] = [
         recommendation: 'Safe to apply',
         timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), // 3 days ago
         confidenceScore: 94,
-        comments: []
+        comments: [],
+        isVerified: true
     },
     {
         id: 'mock-7',

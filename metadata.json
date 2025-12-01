@@ -1,5 +1,5 @@
 {
   "name": "TRUST LINK",
-  "description": "TRUST LINK is a web platform for students to verify links and messages. Using AI, it classifies content as Promotion, Internship, or Scam, provides a risk score, and helps users avoid fraudulent opportunities.",
+  "description": "TRUST LINK is a comprehensive AI-powered verification platform designed to protect users from online scams. Features include real-time AI analysis of links and screenshots using Gemini, community crowdsourced verification, an interactive dashboard for scam trends, and a verified repository of safe internships and job opportunities.",
   "requestFramePermissions": []
 }
