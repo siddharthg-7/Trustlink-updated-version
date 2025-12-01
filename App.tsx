@@ -10,7 +10,7 @@ import FilterBar from './components/FilterBar';
 import ResultsDisplay from './components/ResultsDisplay';
 import LandingPage from './components/LandingPage';
 import LayoutWrapper from './components/LayoutWrapper';
-import ToastContainer, { ToastMessage, ToastType } from './components/Toast.tsx';
+import ToastContainer, { ToastMessage, ToastType } from './components/Toast';
 import { CATEGORIES, MOCK_REPORTS, MOCK_USERS, MOCK_COMMUNITY_POSTS } from './constants';
 import type { LinkReport, Category, View, DashboardData, User, CommunityPost, Comment, FilterState } from './types';
 import { BriefcaseIcon, CheckBadgeIcon, AlertTriangleIcon } from './components/icons';
