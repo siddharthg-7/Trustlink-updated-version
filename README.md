@@ -1,6 +1,5 @@
 <div align="center">
   <br />
-  <img src="./assets/screenshots/logo.png" alt="TrustLink Logo" width="120" height="120">
   <h1 align="center">TrustLink</h1>
   <p align="center">
     <strong>Verify Before You Trust 🔗</strong>
@@ -23,7 +22,7 @@
 ## 📸 Preview
 
 <div align="center"> 
-  <img src="./assets/screenshots/landing-page.png" alt="Main Dashboard" width="100%" />
+  <img src="assets/screenshots/landing-page.png.png" alt="Main Dashboard" width="100%" />
 </div>
 
 <details>
@@ -37,7 +36,7 @@
 | **Dashboard** | ![Dashboard](./assets/screenshots/dashboard.png) |
 | **Community Page** | ![Community Page](./assets/screenshots/community.png) |
 | **User Profile** | ![Profile Modal](./assets/screenshots/profile-modal.png) |
-| **Mobile View** | ![Mobile View](./assets/screenshots/mobile-view.png) |
+| **Mobile View** | ![Mobile View](assets/screenshots/mobile-view.jpeg) |
 
 </details>
 
@@ -110,6 +109,8 @@ trustlink/
 ├── package.json             # Dependencies
 ├── vite.config.js           # Vite configuration
 └── README.md                # Documentation
+
+
 # 🚀 TrustLink
 
 A platform designed to keep students safe online by verifying promotions, internships, and identifying scams.
