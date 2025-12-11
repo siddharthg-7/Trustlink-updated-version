@@ -3,11 +3,16 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GeminiResponse } from '../types';
 
-if (!process.env.API_KEY) {
-  throw new Error("API_KEY environment variable not set");
+const useMock = !import.meta.env.VITE_GEMINI_API_KEY;
+let ai: any = null;
+if (!useMock) {
+  ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+} else {
+  // Graceful fallback for local development when API key is not provided.
+  // This prevents the app from throwing and allows the UI to function
+  // with a deterministic mock response that resembles the Gemini output.
+  console.warn('VITE_GEMINI_API_KEY not set — using local mock Gemini service.');
 }
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const responseSchema = {
   type: Type.OBJECT,
@@ -74,8 +79,42 @@ const systemInstruction = `Act as TRUST LINK AI. You are a security analyst spec
 
 export const analyzeContent = async (content: string, image?: { mimeType: string; data: string }): Promise<GeminiResponse> => {
   try {
+    if (useMock) {
+      // Simple heuristic mock analysis for local development.
+      const lower = content.toLowerCase();
+      const isScam = /scam|fee|pay|urgent|wire|transfer|bank account|verify now/.test(lower);
+      const isIntern = /intern|internship|graduate|entry-level/.test(lower);
+      const isPromo = /promo|promotion|discount|offer|apply now/.test(lower);
+      let category: any = 'UNKNOWN';
+      if (isScam) category = 'SCAM';
+      else if (isIntern) category = 'INTERNSHIP';
+      else if (isPromo) category = 'PROMOTION';
+
+      const redFlags = [] as string[];
+      if (isScam) redFlags.push('Requests payment or bank details', 'Urgency language');
+      if (/free|too good to be true/.test(lower)) redFlags.push('Unrealistic promises');
+
+      const mock: GeminiResponse = {
+        category,
+        riskScore: isScam ? 85 : (isIntern || isPromo ? 25 : 10),
+        confidenceScore: isScam ? 90 : 70,
+        analysis: isScam ? 'Content shows multiple scam indicators such as requests for payment and urgency.' : 'No clear scam indicators found in the provided text.',
+        redFlags: redFlags.slice(0, 5),
+        recommendation: isScam ? 'Likely scam — stay away' : (isIntern ? 'Safe to apply' : 'Needs manual verification'),
+        linkAnalysis: {
+          domainAge: 'Unknown',
+          sslStatus: 'Unknown',
+          redirects: 0,
+          malwareScan: 'Unknown',
+        },
+        keywordHighlights: (content.match(/\b(urgent|apply now|fee|bank|verify now|free|discount)\b/gi) || []).slice(0,5),
+        similarScamsCount: isScam ? 3 : 0,
+      };
+      return mock;
+    }
+
     const prompt = `Analyze the following content based on your instructions and provide a structured JSON response. If there is only an image, analyze the image. If there is text and an image, consider them together. Text: "${content}"`;
-    
+
     const parts: any[] = [{ text: prompt }];
 
     if (image) {

@@ -8,10 +8,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, (process as any).cwd(), '');
   return {
     plugins: [react()],
-    define: {
-      // Polyfill process.env.API_KEY so the Gemini Service works in production
-      'process.env.API_KEY': JSON.stringify(env.API_KEY)
-    },
     build: {
       // Increase chunk size limit to suppress warnings for large dependencies like @google/genai
       chunkSizeWarningLimit: 2000,
